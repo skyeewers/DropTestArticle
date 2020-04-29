@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		268CD0C82457768000C7D393 /* DropViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268CD0C72457768000C7D393 /* DropViewController.swift */; };
+		268CD0CA2457768C00C7D393 /* DropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 268CD0C92457768C00C7D393 /* DropView.swift */; };
 		26E8259A2456FD83006CAE74 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E825992456FD83006CAE74 /* AppDelegate.swift */; };
 		26E8259C2456FD83006CAE74 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E8259B2456FD83006CAE74 /* ViewController.swift */; };
 		26E8259E2456FD88006CAE74 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 26E8259D2456FD88006CAE74 /* Assets.xcassets */; };
@@ -25,6 +27,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		268CD0C72457768000C7D393 /* DropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewController.swift; sourceTree = "<group>"; };
+		268CD0C92457768C00C7D393 /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		26E825962456FD83006CAE74 /* DropTestArticle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DropTestArticle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		26E825992456FD83006CAE74 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		26E8259B2456FD83006CAE74 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -55,6 +59,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		268CD0C62457766B00C7D393 /* Drop View */ = {
+			isa = PBXGroup;
+			children = (
+				268CD0C72457768000C7D393 /* DropViewController.swift */,
+				268CD0C92457768C00C7D393 /* DropView.swift */,
+			);
+			path = "Drop View";
+			sourceTree = "<group>";
+		};
 		26E8258D2456FD83006CAE74 = {
 			isa = PBXGroup;
 			children = (
@@ -76,6 +89,7 @@
 		26E825982456FD83006CAE74 /* DropTestArticle */ = {
 			isa = PBXGroup;
 			children = (
+				268CD0C62457766B00C7D393 /* Drop View */,
 				26E825992456FD83006CAE74 /* AppDelegate.swift */,
 				26E8259B2456FD83006CAE74 /* ViewController.swift */,
 				26E8259D2456FD88006CAE74 /* Assets.xcassets */,
@@ -196,7 +210,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				26E8259C2456FD83006CAE74 /* ViewController.swift in Sources */,
+				268CD0CA2457768C00C7D393 /* DropView.swift in Sources */,
 				26E8259A2456FD83006CAE74 /* AppDelegate.swift in Sources */,
+				268CD0C82457768000C7D393 /* DropViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -351,7 +367,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = YJWHCT75MV;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = DropTestArticle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -371,7 +387,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = YJWHCT75MV;
-				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_HARDENED_RUNTIME = NO;
 				INFOPLIST_FILE = DropTestArticle/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
