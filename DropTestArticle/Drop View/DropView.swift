@@ -9,61 +9,51 @@
 import Cocoa
 
 class DropView: NSView {
-  var filePath: String?
-
-  private lazy var destinationURL: URL = {
-    let destinationURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(
-      "Drops")
-    try? FileManager.default.createDirectory(
-      at: destinationURL, withIntermediateDirectories: true, attributes: nil)
-    return destinationURL
-  }()
-
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
+    var filePath: String?
+    let destinationFolder: URL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Drops")
+    let supportedTypes = NSFilePromiseReceiver.readableDraggedTypes.map { NSPasteboard.PasteboardType($0) }
     
-    registerForDraggedTypes([
-      NSPasteboard.PasteboardType
-        .fileNameType(forPathExtension: ".eml"), NSPasteboard.PasteboardType.filePromise,
-    ])
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        
+        try! FileManager.default.createDirectory(at: destinationFolder, withIntermediateDirectories: true, attributes: nil)
+    
+        registerForDraggedTypes(supportedTypes)
   }
+    
+    private lazy var workQueue: OperationQueue = {
+        let providerQueue = OperationQueue()
+        providerQueue.qualityOfService = .userInitiated
+        return providerQueue
+    }()
 
-  override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
-    if true {
-      return .copy
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return sender.draggingSourceOperationMask.intersection([.copy])
     }
-  }
-
-  override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
-
-    let pasteboard: NSPasteboard = sender.draggingPasteboard
-
-    guard
-      let filePromises = pasteboard.readObjects(
-        forClasses: [NSFilePromiseReceiver.self], options: nil) as? [NSFilePromiseReceiver]
-    else {
-      return false
+    
+    override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        let searchOptions: [NSPasteboard.ReadingOptionKey: Any] = [
+            .urlReadingFileURLsOnly: true,
+            .urlReadingContentsConformToTypes: [ kUTTypeEmailMessage ]
+        ]
+        
+        sender.enumerateDraggingItems(options: [], for: nil, classes: [NSFilePromiseReceiver.self], searchOptions: searchOptions) { (draggingItem, _, _) in
+            switch draggingItem.item {
+            case let filePromiseReceiver as NSFilePromiseReceiver:
+                print("Preparing...")
+                filePromiseReceiver.receivePromisedFiles(atDestination: self.destinationFolder, options: [:],
+                                                         operationQueue: self.workQueue) { (fileURL, error) in
+                    if let error = error {
+                        print("Encountered errror: ")
+                        print(error)
+                    } else {
+                        print("Placed promised file at \(fileURL)")
+                    }
+                }
+            default: break
+            }
+        }
+        
+        return true
     }
-
-    print("Files dropped")
-
-    let operationQueue = OperationQueue()
-    print("Destination URL: \(destinationURL)")
-
-    filePromises.forEach({ filePromiseReceiver in
-      filePromiseReceiver.receivePromisedFiles(
-        atDestination: destinationURL,
-        options: [:],
-        operationQueue: operationQueue,
-        reader: { (url, error) in
-          if let error = error {
-            dump(error)
-          } else {
-            print("Received file at url \(url)")
-          }
-          print(filePromiseReceiver.fileNames, filePromiseReceiver.fileTypes)
-        })
-    })
-    return true
-  }
 }
