@@ -27,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		263FD0C1247C923F00A3D214 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		268CD0C72457768000C7D393 /* DropViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropViewController.swift; sourceTree = "<group>"; };
 		268CD0C92457768C00C7D393 /* DropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropView.swift; sourceTree = "<group>"; };
 		26E825962456FD83006CAE74 /* DropTestArticle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DropTestArticle.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,6 +72,7 @@
 		26E8258D2456FD83006CAE74 = {
 			isa = PBXGroup;
 			children = (
+				263FD0C1247C923F00A3D214 /* README.md */,
 				26E825982456FD83006CAE74 /* DropTestArticle */,
 				26E825AB2456FD88006CAE74 /* DropTestArticleTests */,
 				26E825972456FD83006CAE74 /* Products */,

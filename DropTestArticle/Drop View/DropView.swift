@@ -40,13 +40,17 @@ class DropView: NSView {
         sender.enumerateDraggingItems(options: [], for: nil, classes: [NSFilePromiseReceiver.self], searchOptions: searchOptions) { (draggingItem, _, _) in
             switch draggingItem.item {
             case let filePromiseReceiver as NSFilePromiseReceiver:
-                print("Preparing...")
+                print("Resolving promise...")
+                // This is where we hang for ~60 seconds
                 filePromiseReceiver.receivePromisedFiles(atDestination: self.destinationFolder, options: [:],
                                                          operationQueue: self.workQueue) { (fileURL, error) in
                     if let error = error {
+                        // Apple mail fails here, resulting in this error:
+                        // Error Domain=NSURLErrorDomain Code=-1001 "(null)"
                         print("Encountered errror: ")
                         print(error)
                     } else {
+                        // Other eMail apps output this string
                         print("Placed promised file at \(fileURL)")
                     }
                 }
