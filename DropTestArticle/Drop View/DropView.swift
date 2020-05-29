@@ -9,7 +9,9 @@
 import Cocoa
 
 class DropView: NSView {
-    var filePath: String?
+    
+    @IBOutlet weak var statusLable: NSTextField!
+    
     let destinationFolder: URL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Drops")
     let supportedTypes = NSFilePromiseReceiver.readableDraggedTypes.map { NSPasteboard.PasteboardType($0) }
     
@@ -17,6 +19,9 @@ class DropView: NSView {
         super.init(coder: coder)
         
         try! FileManager.default.createDirectory(at: destinationFolder, withIntermediateDirectories: true, attributes: nil)
+        
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.red.cgColor
     
         registerForDraggedTypes(supportedTypes)
   }
@@ -28,7 +33,13 @@ class DropView: NSView {
     }()
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        wantsLayer = true
+        layer?.backgroundColor = NSColor.blue.cgColor
         return sender.draggingSourceOperationMask.intersection([.copy])
+    }
+    
+    override func draggingExited(_ sender: NSDraggingInfo?) {
+        self.layer?.backgroundColor = NSColor.red.cgColor
     }
     
     override func performDragOperation(_ sender: NSDraggingInfo) -> Bool {
@@ -41,6 +52,7 @@ class DropView: NSView {
             switch draggingItem.item {
             case let filePromiseReceiver as NSFilePromiseReceiver:
                 print("Resolving promise...")
+                self.statusLable.stringValue = "Resolving dropped files..."
                 // This is where we hang for ~60 seconds
                 filePromiseReceiver.receivePromisedFiles(atDestination: self.destinationFolder, options: [:],
                                                          operationQueue: self.workQueue) { (fileURL, error) in
@@ -48,10 +60,11 @@ class DropView: NSView {
                         // Apple mail fails here, resulting in this error:
                         // Error Domain=NSURLErrorDomain Code=-1001 "(null)"
                         print("Encountered errror: ")
-                        print(error)
+                        self.statusLable.stringValue = "Encountered error: \(error)"
                     } else {
                         // Other eMail apps output this string
                         print("Placed promised file at \(fileURL)")
+                        self.statusLable.stringValue = "Promised files were placed at \n \(fileURL)"
                     }
                 }
             default: break

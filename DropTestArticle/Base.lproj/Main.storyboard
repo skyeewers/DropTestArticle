@@ -737,8 +737,8 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="glh-zb-Aey">
-                                <rect key="frame" x="114" y="125" width="169" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="This is where the eMails go" id="QtX-eP-ghe">
+                                <rect key="frame" x="145" y="125" width="108" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" alignment="center" title="Drop eMail here." id="QtX-eP-ghe">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -749,6 +749,9 @@
                             <constraint firstItem="glh-zb-Aey" firstAttribute="centerY" secondItem="SLb-mv-RVd" secondAttribute="centerY" id="6kD-gy-zVE"/>
                             <constraint firstItem="glh-zb-Aey" firstAttribute="centerX" secondItem="SLb-mv-RVd" secondAttribute="centerX" id="y0j-uO-kcl"/>
                         </constraints>
+                        <connections>
+                            <outlet property="statusLable" destination="glh-zb-Aey" id="POd-fh-Fkq"/>
+                        </connections>
                     </view>
                 </viewController>
                 <customObject id="fNE-Xj-9jX" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
