@@ -1,6 +1,8 @@
 #  Apple Mail Drag and Drop Issue Sample
 
-This repository contains a sample Xcode project demonstrating my issues with receiving email message files (`*.eml`) from Apple Mail  using a `NSFilePromiseReceiver`.  
+This repository contains a sample Xcode project demonstrating an issues with receiving email message files (`*.eml`) from Apple Mail  using a `NSFilePromiseReceiver`.  
+
+There is [an example of a workaround to this issue in the workaround branch](https://github.com/svenewers/DropTestArticle/tree/workaround) that uses file system events to catch the eMail being dropped onto the app.
 
 The code in this repo is purposely written in a way that closely follows [Apple's own sample code](https://developer.apple.com/documentation/appkit/documents_data_and_pasteboard/supporting_drag_and_drop_through_file_promises) so that any possible implementation errors on my end are kept to an absolute minimum.  
 
