@@ -57,16 +57,13 @@ class DropView: NSView {
                 self.statusLable.stringValue = "Resolving dropped files..."
                 
                 // We're about to trigger promise resolution, so let's watch the folder the promised files will be written to
-                let desktopPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first!
-                print(desktopPath)
-                print(self.destinationFolder.absoluteString)
                 self.witness = Witness(paths: [self.destinationFolder.relativePath], flags: .FileEvents, latency: 0.3) { events in
                     self.statusLable.stringValue = "Promised files have been placed at \n \(events[0].path)"
                 }
                 
                 // Trigger promise resolution...
                 filePromiseReceiver.receivePromisedFiles(atDestination: self.destinationFolder, options: [:],
-                                                         operationQueue: self.workQueue) { (fileURL, error) in
+                    operationQueue: self.workQueue) { (fileURL, error) in
                     // ... but don't do anything here because promise resolution is unreliable
                 }
             default: break
