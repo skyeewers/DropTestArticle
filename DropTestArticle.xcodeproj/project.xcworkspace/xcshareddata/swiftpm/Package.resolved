@@ -1,0 +1,16 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Witness",
+        "repositoryURL": "https://github.com/njdehoog/Witness/",
+        "state": {
+          "branch": "master",
+          "revision": "b0469457b460fc78620e3b456fed9b18669100d5",
+          "version": null
+        }
+      }
+    ]
+  },
+  "version": 1
+}

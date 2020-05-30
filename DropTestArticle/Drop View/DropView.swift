@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Witness
 
 class DropView: NSView {
     
@@ -14,6 +15,7 @@ class DropView: NSView {
     
     let destinationFolder: URL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("Drops")
     let supportedTypes = NSFilePromiseReceiver.readableDraggedTypes.map { NSPasteboard.PasteboardType($0) }
+    var witness: Witness?
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -53,19 +55,19 @@ class DropView: NSView {
             case let filePromiseReceiver as NSFilePromiseReceiver:
                 print("Resolving promise...")
                 self.statusLable.stringValue = "Resolving dropped files..."
-                // This is where we hang for ~60 seconds
+                
+                // We're about to trigger promise resolution, so let's watch the folder the promised files will be written to
+                let desktopPath = NSSearchPathForDirectoriesInDomains(.desktopDirectory, .userDomainMask, true).first!
+                print(desktopPath)
+                print(self.destinationFolder.absoluteString)
+                self.witness = Witness(paths: [self.destinationFolder.relativePath], flags: .FileEvents, latency: 0.3) { events in
+                    self.statusLable.stringValue = "Promised files have been placed at \n \(events[0].path)"
+                }
+                
+                // Trigger promise resolution...
                 filePromiseReceiver.receivePromisedFiles(atDestination: self.destinationFolder, options: [:],
                                                          operationQueue: self.workQueue) { (fileURL, error) in
-                    if let error = error {
-                        // Apple mail fails here, resulting in this error:
-                        // Error Domain=NSURLErrorDomain Code=-1001 "(null)"
-                        print("Encountered errror: ")
-                        self.statusLable.stringValue = "Encountered error: \(error)"
-                    } else {
-                        // Other eMail apps output this string
-                        print("Placed promised file at \(fileURL)")
-                        self.statusLable.stringValue = "Promised files were placed at \n \(fileURL)"
-                    }
+                    // ... but don't do anything here because promise resolution is unreliable
                 }
             default: break
             }
